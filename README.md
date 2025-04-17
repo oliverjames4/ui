@@ -49,7 +49,7 @@ See our [api docs](https://ui.dhis2.nu/#/api) for a full list of the available c
 
 ### `@dhis2/ui-icons`
 
-This package provides a collection of icons as react components. For tree shaking purposes the icon name, variant and size are all expressed in the component name. Our icons can be imported like so:
+This package provides a collection of customizable React components representing various icons used throughout the DHIS2 application. For tree shaking purposes the icon name, variant and size are all expressed in the component name. Our icons can be imported like so:
 
 ```js
 import { IconApps16 } from '@dhis2/ui'
@@ -79,7 +79,7 @@ The `FF` suffix ensures that these components don't clash with our regular field
 git clone git@github.com:dhis2/ui.git && cd ui
 
 yarn install
-yarn d2-style install
+yarn d2-style install  # Install DHIS2 design styles (used for UI consistency).
 yarn setup
 yarn start
 
