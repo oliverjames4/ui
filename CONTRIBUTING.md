@@ -19,12 +19,42 @@ To allow semantic release to analyse our commits we use [conventional commits](h
 
 A PR is always welcome. We recommend discussing the proposed change first by opening a relevant Jira issue, so that we can prioritize the work and help out with the changes you'd like to make.
 
-## Adding icons to ui-icons
+Adding Icons to @dhis2/ui-icons
 
-The `@dhis2/ui-icons` build process will take care of most things for you. If you want to add an icon you can follow these steps:
+The @dhis2/ui-icons build process will take care of most things for you. If you want to add an icon, follow these steps:
 
--   Add the icon as an svg to `packages/icons/src/svg`
--   Ensure that you're matching the existing naming conventions, i.e. kebab-case and icon name followed by the variant and then the size
--   The svg does not have to be optimized, the build process already includes svgo
--   Any path fill colors should be set to `#010101` so that we can set all path fills to `currentColor`
--   Use `feat` as your conventional commit type, so that the change will be published automatically when the PR is merged
+    Add the Icon as an SVG
+
+        Add the icon to the packages/icons/src/svg directory.
+
+        Ensure that the icon file follows the existing naming conventions:
+
+            Use kebab-case for the icon name.
+
+            If applicable, include the variant and size in the name following the icon name (e.g., icon-name-variant-size.svg).
+
+            Example: settings-filled-24.svg or search-outline-16.svg.
+
+    Ensure Proper Fill Color
+
+        Set the fill color to currentColor for all path elements in the SVG.
+
+        Do not set a fixed fill color like #010101 as the build process will handle it.
+
+    Correct Example:
+
+<path fill="currentColor" d="M12 2L2 12h10l-2 2L22 12h-10z"/>
+
+SVG Optimization
+
+    The build process automatically optimizes the SVG files using svgo, so you do not need to manually optimize them.
+
+    Ensure that there is no redundant code or unnecessary whitespace in the SVG before adding it.
+
+Commit Message
+
+    Use the feat commit type for your changes so that the change will be automatically published when the PR is merged, and it will be included in the changelog.
+
+Example Commit Message:
+
+feat: add new "settings-filled" icon with 24px size
