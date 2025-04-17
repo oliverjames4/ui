@@ -2,114 +2,92 @@
 
 ## Structure
 
-### File system
+### File System
 
-The file system is laid out as flat as possible. Component packages go
-under `components/`, utility packages under `utilities/`, and
-collections under `collections/`.
+The file system is laid out as flat as possible:
+- Component packages go under `components/`
+- Utility packages under `utilities/`
+- Collections under `collections/`
 
 ### Monorepo
 
-Be aware that the UI repository is a monorepo based on Yarn Workspaces,
-so the setup assumes a working knowledge about how workspaces behave,
-and use of Yarn.
+Be aware that the UI repository is a **monorepo** based on **Yarn Workspaces**, so the setup assumes a working knowledge of how workspaces behave and how to use Yarn.
 
-> _Note:_ As of **2021-06-21**, we rely on Yarn 1.x and support for Yarn
-> 2.x is unverified.
+> **Note**: As of 2021-06-21, we rely on **Yarn 1.x**. Support for Yarn 2.x is currently unverified.
 
-See the `workspaces` key in the root `package.json` to see which
-packages are considered part of the workspace.
+See the `workspaces` key in the root `package.json` to view which packages are part of the workspace.
 
-### Conceptual
+---
 
-There are three conceptual levels in UI which we will go over in turn.
+## Conceptual Layers
 
-#### Utilities
+There are three conceptual layers in the UI, explained below.
 
-UI has several utility packages that are helpful when building user
-interfaces, for example `@dhis2/ui-icons` exposes icons ready to be used
-as React components in an application or library. Using these ensures
-that user interfaces look consistent, and that once a user has learned
-an icon, that heuristic will be transferable across DHIS2 applications
-both for core and custom apps.
+---
 
-Another example is the `@dhis2/ui-constants` package that exports
-constants for e.g. DHIS2 colors, sizes, to allow for theme consistency.
+### 1. Utilities
 
-If those constants are used, even if they are updated those updates will
-be reflected in applications that use the constants.
+UI includes several utility packages that are helpful when building user interfaces.
 
-Using utilities from UI does not require use of UI components, so it can
-be useful even if another user interface framework (or custom
-components) are used.
+Examples:
+- `@dhis2/ui-icons` — Exposes icons as ready-to-use React components to ensure consistent visual language across DHIS2 apps.
+- `@dhis2/ui-constants` — Provides constants (e.g., colors, spacing) to maintain theme consistency.
 
-#### Components
+Using these utilities ensures that updates to icons, colors, or spacing propagate consistently across all applications using them.
 
-UI Components are building blocks for constructing DHIS2 user interfaces
-that cover the most common use cases out-of-the-box, while allowing for
-customization to cover advanced, specialized, and uncommon use cases.
+> You can use UI utilities without using the UI components. They work alongside other frameworks or custom components.
 
-In React fashion we rely on composition to enable the goal of having
-"building blocks".
+---
 
-This means that:
+### 2. Components
 
--   complex components are constructed by connecting several simple
-    components,
+UI components are the building blocks for constructing DHIS2 user interfaces. They aim to cover common use cases out-of-the-box, while allowing for deeper customization.
 
--   a consumer must have direct access to the building blocks that make up
-    composed components,
+Following React principles, we rely on **composition**:
+- Complex components are built from simpler ones
+- Consumers should have access to all building blocks
+- Components are **isolated** with well-defined interfaces
+- Components must be **reusable** across multiple contexts
 
--   components need to be isolated from each other with a well defined
-    interface and scope,
+> **Note**: Components are published under the `@dhis2-ui/*` scope and will be considered part of the external API once the architecture stabilizes.
 
--   components needs to be reusable across many contexts.
+> As of 2021-06-21, `@dhis2-ui/*` components are considered **internal** and may include breaking changes without a major version bump.
 
-> _Note_: Components are published under the `@dhis2-ui` scope, and will
-> eventually be considered part of the external API as things stabilize.
->
-> As of **2021-06-21**, `@dhis2-ui/*` components are considered _internal_
-> and may have breaking changes without us bumping the major version on
-> `@dhis2/ui-*` components.
+Each component package:
+- Has a logical and semantic scope
+- May group related components
+- Can be split into smaller packages to avoid circular dependencies or enforce tighter boundaries
 
-Each component package has a logical and semantic scope, that may group
-related components.
+To support future extraction:
+- Each package includes a `src/index.js` file to define its public exports
+- Multi-component packages should structure each subcomponent in its own directory, each with its own `index.js` file:  
+  Example: `{component}/src/{subcomponent}/index.js`
 
-If needed, components can be extracted to distinct component packages to
-break e.g. circular dependencies or to provide a tighter scope.
+> Components should be imported from their respective `index.js` files, not from internal or non-exported parts of the module.
 
-If UI is fully decomposed, every single component would be its own
-package, and this would not be a problem. We may end up there in the
-future, but for now we are striking a pragmatic balance between packages
-and components.
+---
 
-To make extraction easier, each component package has a
-`{component}/src/index.js` file that defines the exported components for that
-package.
+### 3. Collections
 
-If a package contains multiple components, then each subcomponent should have a
-`index.js` file that defines its module boundary. This makes it easier to
-extract it in the future: {component}/src/{subcomponent}/index.js`.
+A **collection** is a group of components and serves as the primary entry point for use in applications.
 
-Components should import from the `index.js` files and avoid reaching into
-non-exported parts of a component.
+- The main collection is `@dhis2/ui`, which provides access to all internal components.
 
-#### Collections
+> **Note**:
+> - `@dhis2/ui-core` and `@dhis2/ui-widgets` are deprecated.
+> - These packages will still receive updates for existing components but will not receive new components.
+> - They will be removed in a future major release.
 
-In UI terms a collection is a set of components, and is considered the
-primary entry-point for use in applications. An application will
-primarily rely on `@dhis2/ui` and all internal components are available
-through that collection.
+---
 
-> _Note:_ `@dhis2/ui-core` and `@dhis2/ui-widgets` are deprecated and
-> will be phased out. They will still get updates to _existing_
-> components, but no new components will be available from these two
-> packages, and they will be removed in a major update in the future.
+## Package Scopes and Publishing
 
-## Package scopes
+UI uses two NPM scopes for publishing:
 
-UI uses two different scopes on NPM to publish:
+| Scope            | Purpose                     |
+|------------------|-----------------------------|
+| `@dhis2/ui-*`    | Collections and utilities   |
+| `@dhis2-ui/*`    | Component packages          |
 
--   `@dhis2/ui*`: Collections and utilities.
+---
 
--   `@dhis2-ui/*`: Component packages are published under this scope.
