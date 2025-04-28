@@ -18,11 +18,11 @@ All components can be imported directly from `@dhis2/ui` like so:
 import { Button } from '@dhis2/ui'
 ```
 
-We recommend that you use `@dhis2/ui` as the entrypoint for all imports of our frontend components (as in the example above). That way your imports won't break if any of the underlying packages change.
+We recommend using @dhis2/ui as the entry point for all imports of our frontend components (as shown above). That way your imports won't break if any of the underlying packages change.
 
 ## Documentation
 
-`@dhis2/ui` is based on the specifications in our design-system: https://github.com/dhis2/design-system. See the documentation there for more information.
+`@dhis2/ui` is based on the specifications in our design-system: https://github.com/dhis2/design-system. See the documentation for more information.
 
 -   Docs: [ui.dhis2.nu](https://ui.dhis2.nu)
 -   Live demo: [ui.dhis2.nu/demo](https://ui.dhis2.nu/demo)
