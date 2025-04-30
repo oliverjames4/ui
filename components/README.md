@@ -17,14 +17,14 @@ follow semver. Currently there is no date in mind.
 ## Structure
 
 Each package represents one or more component that is logically grouped.
-E.g. Button, SplitButton, DropdownButton live under the
-`@dhis2-ui/button` package. Table, StackedTable, and their related
+Example:  Button, SplitButton, DropdownButton live under the
+`@dhis2-ui/button` package.Similarly Table, StackedTable, and their related
 subcomponents under `@dhis2-ui/table`.
 
 Some packages expose multiple components, e.g. the `@dhis2-ui/input`
 package exposes the Input and InputField components. The
-`@dhis2-ui/select` gives you SingleSelect, MultiSelect, their Option
-components, and the Field counterparts.
+`@dhis2-ui/select` package includes SingleSelect, MultiSelect, their Option
+components, and the Field components
 
 ## Breaking down components
 
